@@ -5,5 +5,22 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
 
+  has_many :wants
+  has_many :want_items, through: :wants, class_name: 'Item', source: :item
+
   has_secure_password
+
+  def want(item)
+    self.wants.find_or_create_by(item_id: item.id)
+  end
+
+  def unwant(item)
+    want = self.wants.find_by(item_id: item.id)
+    want.destroy if want
+  end
+
+  def want?(item)
+    self.want_items.include?(item)
+  end
+
 end

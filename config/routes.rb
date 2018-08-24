@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-
-  get 'sessions/create'
-
-  get 'sessions/destroy'
+  get 'items/new'
 
   root to: 'toppages#index'
 
@@ -13,4 +9,6 @@ Rails.application.routes.draw do
 
   get 'signup', to: 'users#new'
   resources :users, only: [:show, :new, :create]
+
+  resources :items, only: [:new]
 end
